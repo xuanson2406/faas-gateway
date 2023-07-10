@@ -75,6 +75,7 @@ func (s ExternalServiceQuery) GetReplicas(serviceName, serviceNamespace string) 
 	if err != nil {
 		return emptyServiceQueryResponse, err
 	}
+	log.Printf("urlPath of Get replicas request is: %s", urlPath)
 
 	if s.AuthInjector != nil {
 		s.AuthInjector.Inject(req)
@@ -118,7 +119,7 @@ func (s ExternalServiceQuery) GetReplicas(serviceName, serviceNamespace string) 
 		maxReplicas = extractLabelValue(labels[scaling.MaxScaleLabel], maxReplicas)
 		if v, ok := labels["com.openfaas.scale.zero"]; ok {
 			if v == "true" {
-				minReplicas = uint64(0)
+				minReplicas = uint64(1)
 				log.Printf("Function %s.%s is enable scale to zero!", function.Name, function.Namespace)
 			}
 		}
@@ -158,7 +159,7 @@ func (s ExternalServiceQuery) SetReplicas(serviceName, serviceNamespace string, 
 	start := time.Now()
 	urlPath := fmt.Sprintf("%ssystem/scale-function/%s?namespace=%s", s.URL.String(), serviceName, serviceNamespace)
 	req, _ := http.NewRequest(http.MethodPost, urlPath, bytes.NewReader(requestBody))
-
+	log.Printf("urlPath of Set replicas request is: %s", urlPath)
 	if s.AuthInjector != nil {
 		s.AuthInjector.Inject(req)
 	}

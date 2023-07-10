@@ -36,17 +36,20 @@ func MakeHorizontalScalingHandler(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost {
 			http.Error(w, "Only POST is allowed", http.StatusMethodNotAllowed)
+			log.Print("Error cause method")
 			return
 		}
 
 		if r.Body == nil {
 			http.Error(w, "Error reading request body", http.StatusBadRequest)
+			log.Printf("error cause empty body")
 			return
 		}
 
 		body, err := ioutil.ReadAll(r.Body)
 		if err != nil {
 			http.Error(w, "Error reading request body", http.StatusBadRequest)
+			log.Print("error cause unable read request")
 			return
 		}
 
@@ -54,12 +57,13 @@ func MakeHorizontalScalingHandler(next http.HandlerFunc) http.HandlerFunc {
 		// log.Printf("Service %s in namespace %s have requested %d replicas", scaleRequest.ServiceName, scaleRequest.Namespace, scaleRequest.Replicas)
 		if err := json.Unmarshal(body, &scaleRequest); err != nil {
 			http.Error(w, "Error unmarshalling request body", http.StatusBadRequest)
+			log.Print("error cause unmarshalling request body")
 			return
 		}
 
 		if scaleRequest.Replicas < 1 {
 			log.Printf("Service name %s want to scale to zero", scaleRequest.ServiceName)
-			scaleRequest.Replicas = 0
+			scaleRequest.Replicas = 1
 		}
 
 		if scaleRequest.Replicas > DefaultMaxReplicas {

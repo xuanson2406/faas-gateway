@@ -1,0 +1,6 @@
+github.com/openfaas/faas-provider v0.24.0 h1:5ToqdkqZ3pM9SdFKBMUmhU8IjXMh6+qd7gEDBeFhp1M=
+github.com/openfaas/faas-provider v0.24.0/go.mod h1:NsETIfEndZn4mn/w/XnBTcDTwKqULCziphLp7KgeRcA=
+github.com/openfaas/faas/gateway v0.0.0-20230707085301-9e6f814f6fd8 h1:KJyo/Em7/Pzb61cGu0U8l3/6dBQAK/lMEZCK9can8WU=
+github.com/openfaas/faas/gateway v0.0.0-20230707085301-9e6f814f6fd8/go.mod h1:dr/Cno1dEuFB7+OD8fzq+CApKMY9Gdbho4zJKl0nVzI=
+golang.org/x/sync v0.3.0 h1:ftCYgMx6zT/asHUrPw8BLLscYtGznsLAnjq5RH9P66E=
+golang.org/x/sync v0.3.0/go.mod h1:FU7BRWz2tNW+3quACPkgCx/L+uEAv1htQ0V83Z9Rj+Y=
