@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"io/ioutil"
+	"log"
 	"net/http"
 
 	"github.com/openfaas/faas-provider/types"
@@ -14,7 +15,7 @@ const (
 	DefaultMinReplicas = 1
 
 	// DefaultMaxReplicas is the amount of replicas a service will auto-scale up to.
-	DefaultMaxReplicas = 5
+	DefaultMaxReplicas = 20
 
 	// DefaultScalingFactor is the defining proportion for the scaling increments.
 	DefaultScalingFactor = 10
@@ -50,13 +51,15 @@ func MakeHorizontalScalingHandler(next http.HandlerFunc) http.HandlerFunc {
 		}
 
 		scaleRequest := types.ScaleServiceRequest{}
+		// log.Printf("Service %s in namespace %s have requested %d replicas", scaleRequest.ServiceName, scaleRequest.Namespace, scaleRequest.Replicas)
 		if err := json.Unmarshal(body, &scaleRequest); err != nil {
 			http.Error(w, "Error unmarshalling request body", http.StatusBadRequest)
 			return
 		}
 
 		if scaleRequest.Replicas < 1 {
-			scaleRequest.Replicas = 1
+			log.Printf("Service name %s want to scale to zero", scaleRequest.ServiceName)
+			scaleRequest.Replicas = 0
 		}
 
 		if scaleRequest.Replicas > DefaultMaxReplicas {

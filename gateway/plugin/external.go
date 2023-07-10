@@ -116,6 +116,12 @@ func (s ExternalServiceQuery) GetReplicas(serviceName, serviceNamespace string) 
 
 		minReplicas = extractLabelValue(labels[scaling.MinScaleLabel], minReplicas)
 		maxReplicas = extractLabelValue(labels[scaling.MaxScaleLabel], maxReplicas)
+		if v, ok := labels["com.openfaas.scale.zero"]; ok {
+			if v == "true" {
+				minReplicas = uint64(0)
+				log.Printf("Function %s.%s is enable scale to zero!", function.Name, function.Namespace)
+			}
+		}
 		extractedScalingFactor := extractLabelValue(labels[scaling.ScalingFactorLabel], scalingFactor)
 
 		if extractedScalingFactor > 0 && extractedScalingFactor <= 100 {

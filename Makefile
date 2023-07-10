@@ -1,9 +1,9 @@
 TAG?=latest
-NS?=openfaas
+NS?=xuanson2406
 
 .PHONY: build-gateway
 build-gateway:
-	(cd gateway;  docker buildx build --platform linux/amd64 -t ${NS}/gateway:latest-dev .)
+	(cd gateway;  docker buildx build --platform linux/amd64 -t ${NS}/gateway:latest-dev1 .)
 
 
 # generate Go models from the OpenAPI spec using https://github.com/contiamo/openapi-generator-go
