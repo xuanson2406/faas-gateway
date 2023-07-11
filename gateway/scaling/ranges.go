@@ -63,7 +63,7 @@ func MakeHorizontalScalingHandler(next http.HandlerFunc) http.HandlerFunc {
 
 		if scaleRequest.Replicas < 1 {
 			log.Printf("Service name %s want to scale to zero", scaleRequest.ServiceName)
-			scaleRequest.Replicas = 1
+			scaleRequest.Replicas = 0
 		}
 
 		if scaleRequest.Replicas > DefaultMaxReplicas {
